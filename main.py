@@ -4,6 +4,7 @@ import pandas as pd
 from tabulate import tabulate 
 import slow_solution_apriori
 import slow_solution_fpgrowth
+import fast_solution_fpgrowth
 
 def benchmark_solution(solution_module, name, iterations=5, support=0.03, confidence=0.5):
     print(f"Rozpoczynam testy dla: {name}...")
@@ -54,6 +55,12 @@ def run_comparison():
         results.append(fpgrowth_stats)
     except Exception as e:
         print(f"Błąd podczas testu FP-Growth: {e}")
+
+    try:
+        fast_fpgrowth_stats = benchmark_solution(fast_solution_fpgrowth, "FP-Growth (FAST C++)", ITERATIONS, MIN_SUPPORT, MIN_CONFIDENCE)
+        results.append(fast_fpgrowth_stats)
+    except Exception as e:
+        print(f"Błąd podczas testu FAST C++: {e}")
 
     # Wyświetlenie wyników
     print("\n" + "="*60)
