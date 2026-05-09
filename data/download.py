@@ -9,4 +9,7 @@ full_path = os.path.join(download_path, csv_filename)
 with open('config.py', 'a', encoding='utf-8') as f:
     f.write(f'datapath = {repr(full_path)}')
 
+with open('config.h', 'w', encoding='utf-8') as f:
+    f.write(f'#define DATAPATH {repr(full_path)}')
+
 print(f"Sukces! Ścieżka zapisana w config.py: {full_path}")

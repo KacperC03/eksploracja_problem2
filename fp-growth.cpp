@@ -13,6 +13,8 @@
 // CONTEXT:
 // readme.md, main.py
 
+#include "config.h"
+
 // Struktura przygotowana pod pybind11
 struct Rule {
     std::vector<std::string> A;
@@ -84,7 +86,7 @@ public:
         std::vector<std::vector<int>> transactions;
         
         // Ścieżka do docelowego pliku (możesz zmienić na "data/online_retail_II.csv" przed oddaniem)
-        std::string filepath = "C:\\Users\\171ku\\.cache\\kagglehub\\datasets\\mashlyn\\online-retail-ii-uci\\versions\\3\\online_retail_II.csv"; 
+        std::string filepath = DATAPATH; 
         
         if (verbose) std::cout << "Wczytywanie danych z pliku CSV..." << std::endl;
         

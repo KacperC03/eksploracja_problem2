@@ -12,7 +12,7 @@ def benchmark_solution(solution_module, name, iterations=5, support=0.03, confid
     
     for i in range(1, iterations + 1):
         start_time = time.perf_counter()
-        result = solution_module.solve(support, confidence, verbose=False)
+        result = solution_module.solve(support, confidence, verbose=True)
         end_time = time.perf_counter()
         
         duration = end_time - start_time
@@ -41,20 +41,20 @@ def run_comparison():
     results = []
 
     # Test Apriori
-    try:
-        apriori_stats = benchmark_solution(slow_solution_apriori, "Apriori (Slow)", ITERATIONS, MIN_SUPPORT, MIN_CONFIDENCE)
-        results.append(apriori_stats)
-    except Exception as e:
-        print(f"Błąd podczas testu Apriori: {e}")
+    # try:
+    #     apriori_stats = benchmark_solution(slow_solution_apriori, "Apriori (Slow)", ITERATIONS, MIN_SUPPORT, MIN_CONFIDENCE)
+    #     results.append(apriori_stats)
+    # except Exception as e:
+    #     print(f"Błąd podczas testu Apriori: {e}")
 
-    print("-" * 30)
+    # print("-" * 30)
 
     # Test FP-Growth
-    try:
-        fpgrowth_stats = benchmark_solution(slow_solution_fpgrowth, "FP-Growth (Slow)", ITERATIONS, MIN_SUPPORT, MIN_CONFIDENCE)
-        results.append(fpgrowth_stats)
-    except Exception as e:
-        print(f"Błąd podczas testu FP-Growth: {e}")
+    # try:
+    #     fpgrowth_stats = benchmark_solution(slow_solution_fpgrowth, "FP-Growth (Slow)", ITERATIONS, MIN_SUPPORT, MIN_CONFIDENCE)
+    #     results.append(fpgrowth_stats)
+    # except Exception as e:
+    #     print(f"Błąd podczas testu FP-Growth: {e}")
 
     try:
         fast_fpgrowth_stats = benchmark_solution(fast_solution_fpgrowth, "FP-Growth (FAST C++)", ITERATIONS, MIN_SUPPORT, MIN_CONFIDENCE)

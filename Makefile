@@ -10,11 +10,6 @@ CXXFLAGS = -std=c++17 -Wall -O3
 TEST_SRC = main.cpp
 TEST_TARGET = fp-growth.exe
 
-# Używamy Pythona do pobrania ścieżek i od razu zamieniamy '\' na '/' dla MinGW
-PYBIND_INCLUDES = $(shell python -c "import pybind11, sysconfig; print(f'-I\"{sysconfig.get_path(\"include\").replace(\"\\\\\", \"/\")}\" -I\"{pybind11.get_include().replace(\"\\\\\", \"/\")}\"')")
-
-PY_LDFLAGS = $(shell python -c "import sys, os; p = os.path.join(sys.base_prefix, 'libs').replace('\\\\', '/'); print(f'-L\"{p}\" -lpython{sys.version_info.major}{sys.version_info.minor}')")
-
 PY_EXT = .pyd
 WRAPPER_SRC = wrapper.cpp
 WRAPPER_TARGET = fpgrowth_fast$(PY_EXT)
@@ -25,13 +20,13 @@ all: test python_module
 test: $(TEST_SRC)
 	$(CXX) $(CXXFLAGS) $(TEST_SRC) -o $(TEST_TARGET)
 
-# Dodaliśmy $(PY_LDFLAGS) na samym końcu tego polecenia!
+# Python module - use setuptools for proper compilation
 python_module: $(WRAPPER_SRC)
-	$(CXX) $(CXXFLAGS) -shared -static -fPIC $(PYBIND_INCLUDES) $(WRAPPER_SRC) -o $(WRAPPER_TARGET) $(PY_LDFLAGS)
+	.\venvED2\Scripts\python.exe setup.py build_ext --inplace
 
 # Clean target
 clean:
-	rm -f $(TEST_TARGET) $(WRAPPER_TARGET) *.o
+	del /f /q $(TEST_TARGET) $(WRAPPER_TARGET) *.o 2>nul || true
 
 # Phony targets
 .PHONY: all test python_module clean
